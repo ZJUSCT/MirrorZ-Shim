@@ -6,6 +6,7 @@ import (
 	"github.com/ZJUSCT/MirrorZ-Shim/models"
 	"github.com/dgraph-io/ristretto"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/gommon/log"
 	"github.com/spf13/viper"
 	"io"
 	"net/http"
@@ -31,6 +32,7 @@ func main() {
 
 	// set up web server
 	e := echo.New()
+	e.Logger.SetLevel(log.INFO)
 	e.GET("/", func(c echo.Context) error {
 		e.Logger.Info("Incoming ping request")
 		return c.String(http.StatusOK, "[INFO] ZJU-Mirror MirrorZ Shim Working.")
