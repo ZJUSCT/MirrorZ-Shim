@@ -2,17 +2,24 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/ZJUSCT/MirrorZ-Shim/convertor"
 	"github.com/ZJUSCT/MirrorZ-Shim/models"
 	"github.com/dgraph-io/ristretto"
 	"github.com/labstack/echo/v4"
+	"github.com/spf13/viper"
 	"io"
 	"net/http"
 	"time"
 )
 
 func main() {
+	// setup config system
+	viper.SetEnvPrefix("MIRRORZ_SHIM")
+	viper.AutomaticEnv()
+	viper.SetDefault("URL", "https://mirrors.zju.edu.cn/api/mirrors")
+	viper.SetDefault("CACHE_TTL", 5)
+
+	// set up cache
 	cache, err := ristretto.NewCache(&ristretto.Config{
 		NumCounters: 100,
 		MaxCost:     1000,
@@ -22,6 +29,7 @@ func main() {
 		panic(err)
 	}
 
+	// set up web server
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
 		e.Logger.Info("Incoming ping request")
@@ -33,8 +41,9 @@ func main() {
 		var data *models.MirrorZ
 		val, found := cache.Get("mirrorz")
 		if !found {
-			fmt.Println("no cache")
-			resp, err := http.Get("https://mirrors.zju.edu.cn/api/mirrors")
+			e.Logger.Info("no cache")
+			url := viper.GetString("URL")
+			resp, err := http.Get(url)
 			if err != nil {
 				return err
 			}
@@ -51,9 +60,10 @@ func main() {
 
 			data = convertor.Convert(mirrorData)
 
-			cache.SetWithTTL("mirrorz", data, 1, time.Minute*5)
+			cacheTTL := viper.GetInt("CACHE_TTL")
+			cache.SetWithTTL("mirrorz", data, 1, time.Duration(cacheTTL*int(time.Minute)))
 		} else {
-			fmt.Println("has cache")
+			e.Logger.Info("has cache")
 			data = val.(*models.MirrorZ)
 		}
 
@@ -62,5 +72,6 @@ func main() {
 		}
 		return c.JSON(http.StatusCreated, data)
 	})
+
 	e.Logger.Fatal(e.Start(":1323"))
 }
