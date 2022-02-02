@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/ZJUSCT/MirrorZ-Shim/convertor"
 	"github.com/ZJUSCT/MirrorZ-Shim/models"
 	"github.com/labstack/echo/v4"
 	"io"
@@ -32,11 +33,7 @@ func main() {
 			return err
 		}
 
-		data := new(models.MirrorZ)
-		data.Site = mirrorData.Site
-		data.Version = mirrorData.Version
-		data.Info = mirrorData.Info
-		data.Mirrors = mirrorData.Mirrors
+		data := convertor.Convert(mirrorData)
 
 		if err := c.Bind(data); err != nil {
 			return err
