@@ -11,10 +11,24 @@ func Convert(mirrorData models.Mirror) *models.MirrorZ {
 	var cnameMapper map[string]string
 	file, err := ioutil.ReadFile("./configs/mirrorz-cname.json")
 	if err != nil {
+		fmt.Println("Read cname.json failed")
 		return nil
 	}
 	err = json.Unmarshal(file, &cnameMapper)
 	if err != nil {
+		fmt.Println("Unmarshal cname.json failed")
+		return nil
+	}
+
+	var mirrorzExt models.MirrorZExtension
+	file, err = ioutil.ReadFile("./configs/extension.json")
+	if err != nil {
+		fmt.Println("Read extension.json failed")
+		return nil
+	}
+	err = json.Unmarshal(file, &mirrorzExt)
+	if err != nil {
+		fmt.Println("Unmarshal extension.json failed")
 		return nil
 	}
 
@@ -23,6 +37,8 @@ func Convert(mirrorData models.Mirror) *models.MirrorZ {
 	data.Version = mirrorData.Version
 	data.Info = mirrorData.Info
 	data.Mirrors = mirrorData.Mirrors
+	data.Extension = mirrorzExt.Extension
+	data.Endpoints = mirrorzExt.Endpoints
 
 	// Do convert
 	for i := range data.Info {

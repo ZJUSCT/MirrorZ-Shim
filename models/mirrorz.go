@@ -34,4 +34,12 @@ type MirrorZ struct {
 		Upstream string `json:"upstream"`
 		Size     string `json:"size,omitempty"`
 	} `json:"mirrors"`
+	Extension string `json:"extension"`
+	Endpoints []struct {
+		Label   string        `json:"label"`
+		Public  bool          `json:"public"`
+		Resolve string        `json:"resolve"`
+		Filter  []string      `json:"filter"`
+		Range   []interface{} `json:"range"`
+	} `json:"endpoints"`
 }

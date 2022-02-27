@@ -1,6 +1,14 @@
 # MirrorZ-Shim
  Shim Layer for MirrorZ written in Go
 
+## MirrorZ Format
+
+basic: https://github.com/mirrorz-org/mirrorz-302#mirrorzdjson
+
+302 extension: https://github.com/mirrorz-org/mirrorz-302#mirrorzdjson
+
+> Our mirrorz.json integrates extension format into basic
+
 ## Configs
  Set Envs:
  - `MIRRORZ_SHIM_URL` origin status json url, default to https://mirrors.zju.edu.cn/api/mirrors
