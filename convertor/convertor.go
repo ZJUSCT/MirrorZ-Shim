@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ZJUSCT/MirrorZ-Shim/models"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 )
 
@@ -46,7 +47,9 @@ func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 		if cname != "" {
 			data.Info[i].Distro = cname
 		} else {
-			fmt.Println(data.Info[i].Distro)
+			logrus.
+				WithField("zju_distro_name", data.Info[i].Distro).
+				Warn("key not found in cname map")
 		}
 	}
 	for i := range data.Mirrors {
@@ -54,7 +57,9 @@ func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 		if cname != "" {
 			data.Mirrors[i].Cname = cname
 		} else {
-			fmt.Println(data.Mirrors[i].Cname)
+			logrus.
+				WithField("zju_mirror_cname", data.Mirrors[i].Cname).
+				Warn("key not found in cname map")
 		}
 	}
 	return data

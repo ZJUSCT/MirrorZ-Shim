@@ -7,6 +7,7 @@ import (
 	"github.com/dgraph-io/ristretto"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"io"
 	"net/http"
@@ -20,7 +21,11 @@ func main() {
 	viper.SetDefault("URL", "https://mirrors.zju.edu.cn/api/mirrors")
 	viper.SetDefault("CACHE_TTL", 5)
 
-	// set up cache
+	// setup log
+	logrus.SetReportCaller(true)
+	logrus.SetLevel(logrus.DebugLevel)
+
+	// setup cache
 	cache, err := ristretto.NewCache(&ristretto.Config{
 		NumCounters: 100,
 		MaxCost:     1000,
@@ -32,6 +37,7 @@ func main() {
 
 	// set up web server
 	e := echo.New()
+	e.HideBanner = true
 	e.Logger.SetLevel(log.INFO)
 	e.GET("/", func(c echo.Context) error {
 		e.Logger.Info("Incoming ping request")
