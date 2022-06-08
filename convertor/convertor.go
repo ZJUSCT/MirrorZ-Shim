@@ -1,35 +1,20 @@
 package convertor
 
 import (
-	"encoding/json"
-	"fmt"
 	"github.com/ZJUSCT/MirrorZ-Shim/models"
 	"github.com/sirupsen/logrus"
-	"io/ioutil"
 )
 
 func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 	var cnameMapper map[string]string
-	file, err := ioutil.ReadFile("./configs/mirrorz-cname.json")
-	if err != nil {
-		fmt.Println("Read cname.json failed")
-		return nil
-	}
-	err = json.Unmarshal(file, &cnameMapper)
-	if err != nil {
-		fmt.Println("Unmarshal cname.json failed")
+	if err := readJson(cnameMapper, "./configs/mirrorz-cname.json"); err != nil {
+		logrus.Error(err)
 		return nil
 	}
 
 	var mirrorzExt models.MirrorZExtension
-	file, err = ioutil.ReadFile("./configs/extension.json")
-	if err != nil {
-		fmt.Println("Read extension.json failed")
-		return nil
-	}
-	err = json.Unmarshal(file, &mirrorzExt)
-	if err != nil {
-		fmt.Println("Unmarshal extension.json failed")
+	if err := readJson(mirrorzExt, "./configs/extension.json"); err != nil {
+		logrus.Error(err)
 		return nil
 	}
 
