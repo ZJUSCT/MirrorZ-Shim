@@ -7,20 +7,26 @@ import (
 
 func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 	var cnameMapper map[string]string
-	if err := readJson(cnameMapper, "./configs/mirrorz-cname.json"); err != nil {
+	if err := readJson(&cnameMapper, "./configs/mirrorz-cname.json"); err != nil {
 		logrus.Error(err)
 		return nil
 	}
 
 	var mirrorzExt models.MirrorZExtension
-	if err := readJson(mirrorzExt, "./configs/extension.json"); err != nil {
+	if err := readJson(&mirrorzExt, "./configs/extension.json"); err != nil {
+		logrus.Error(err)
+		return nil
+	}
+
+	var mirrorzSite models.MirrorzSite
+	if err := readJson(&mirrorzSite, "./configs/site-metadata.json"); err != nil {
 		logrus.Error(err)
 		return nil
 	}
 
 	data := new(models.MirrorZ)
-	data.Version = 1.5 // FIXME: do not hard core
-	// data.Site = mirrorData.Site FIXME: read config file here
+	data.Version = 1.5 // FIXME: do not hard code
+	data.Site = mirrorzSite
 	data.Info = convertToMirrorzInfo(mirrorData)
 	data.Mirrors = convertToMirrorzMirrors(mirrorData)
 	data.Extension = mirrorzExt.Extension

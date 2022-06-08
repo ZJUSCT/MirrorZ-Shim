@@ -1,22 +1,8 @@
 package models
 
 type MirrorZ struct {
-	Version float64 `json:"version,omitempty"`
-	Site    struct {
-		URL          string `json:"url"`
-		Logo         string `json:"logo,omitempty"`
-		LogoDarkmode string `json:"logo_darkmode,omitempty"`
-		Abbr         string `json:"abbr"`
-		Name         string `json:"name,omitempty"`
-		Homepage     string `json:"homepage,omitempty"`
-		Issue        string `json:"issue,omitempty"`
-		Request      string `json:"request,omitempty"`
-		Email        string `json:"email,omitempty"`
-		Group        string `json:"group,omitempty"`
-		Disk         string `json:"disk,omitempty"`
-		Note         string `json:"note,omitempty"`
-		Big          string `json:"big,omitempty"`
-	} `json:"site"`
+	Version   float64         `json:"version,omitempty"`
+	Site      MirrorzSite     `json:"site"`
 	Info      []MirrorzInfo   `json:"info"`
 	Mirrors   []MirrorzMirror `json:"mirrors"`
 	Extension string          `json:"extension"`
@@ -27,6 +13,22 @@ type MirrorZ struct {
 		Filter  []string      `json:"filter"`
 		Range   []interface{} `json:"range"`
 	} `json:"endpoints"`
+}
+
+type MirrorzSite struct {
+	URL          string `json:"url"`
+	Logo         string `json:"logo,omitempty"`
+	LogoDarkmode string `json:"logo_darkmode,omitempty"`
+	Abbr         string `json:"abbr"`
+	Name         string `json:"name,omitempty"`
+	Homepage     string `json:"homepage,omitempty"`
+	Issue        string `json:"issue,omitempty"`
+	Request      string `json:"request,omitempty"`
+	Email        string `json:"email,omitempty"`
+	Group        string `json:"group,omitempty"`
+	Disk         string `json:"disk,omitempty"`
+	Note         string `json:"note,omitempty"`
+	Big          string `json:"big,omitempty"`
 }
 
 type MirrorzMirror struct {
