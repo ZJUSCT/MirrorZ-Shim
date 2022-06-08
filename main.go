@@ -54,7 +54,7 @@ func main() {
 			}(resp.Body)
 
 			body, err := io.ReadAll(resp.Body)
-			mirrorData := models.Mirror{}
+			var mirrorData []models.ZjuMirror
 			err = json.Unmarshal(body, &mirrorData)
 			if err != nil {
 				return err

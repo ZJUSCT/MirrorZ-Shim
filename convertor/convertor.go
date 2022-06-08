@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 )
 
-func Convert(mirrorData models.Mirror) *models.MirrorZ {
+func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 	var cnameMapper map[string]string
 	file, err := ioutil.ReadFile("./configs/mirrorz-cname.json")
 	if err != nil {
@@ -33,10 +33,10 @@ func Convert(mirrorData models.Mirror) *models.MirrorZ {
 	}
 
 	data := new(models.MirrorZ)
-	data.Site = mirrorData.Site
-	data.Version = mirrorData.Version
-	data.Info = mirrorData.Info
-	data.Mirrors = mirrorData.Mirrors
+	data.Version = 1.5 // FIXME: do not hard core
+	// data.Site = mirrorData.Site FIXME: read config file here
+	data.Info = convertToMirrorzInfo(mirrorData)
+	data.Mirrors = convertToMirrorzMirrors(mirrorData)
 	data.Extension = mirrorzExt.Extension
 	data.Endpoints = mirrorzExt.Endpoints
 
@@ -57,6 +57,27 @@ func Convert(mirrorData models.Mirror) *models.MirrorZ {
 			fmt.Println(data.Mirrors[i].Cname)
 		}
 	}
-
 	return data
+}
+
+func convertToMirrorzInfo(mirrorData []models.ZjuMirror) []models.MirrorzInfo {
+	var mirrorzInfo []models.MirrorzInfo
+	for _, v := range mirrorData {
+		mirrorzInfo = append(
+			mirrorzInfo,
+			models.MirrorzInfo{Distro: v.Name.Zh, Category: "os", Urls: v.Files}, // FIXME: do not hardcode os
+		)
+	}
+	return mirrorzInfo
+}
+
+func convertToMirrorzMirrors(mirrorData []models.ZjuMirror) []models.MirrorzMirror {
+	var mirrozMirror []models.MirrorzMirror
+	for _, v := range mirrorData {
+		mirrozMirror = append(
+			mirrozMirror,
+			models.MirrorzMirror{Cname: v.Name.Zh, Desc: v.Desc.Zh, URL: v.Url, Help: v.HelpUrl, Upstream: v.Upstream},
+		)
+	}
+	return mirrozMirror
 }
