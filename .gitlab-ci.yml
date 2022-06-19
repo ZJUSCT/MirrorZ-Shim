@@ -6,7 +6,7 @@ before_script:
   - docker info
   - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
 
-build-manager:
+build-shim:
   stage: build
   image: docker:20.10
   tags:
