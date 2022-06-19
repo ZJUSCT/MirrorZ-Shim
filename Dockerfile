@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine as BUILD
+FROM golang:1.18-alpine as BUILD
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ COPY go.sum .
 RUN go mod download
 
 ADD . /app
-RUN go build -o ./mirrorz-shim
+RUN GOPROXY="https://proxy.golang.com.cn,direct" go build -o ./mirrorz-shim
 
 FROM alpine:3
 

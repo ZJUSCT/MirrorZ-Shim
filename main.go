@@ -18,7 +18,7 @@ func main() {
 	// setup config system
 	viper.SetEnvPrefix("MIRRORZ_SHIM")
 	viper.AutomaticEnv()
-	viper.SetDefault("URL", "https://mirrors.zju.edu.cn/api/mirrors")
+	viper.SetDefault("URL", "https://mirror.zju.edu.cn/api/mirrors")
 	viper.SetDefault("CACHE_TTL", 5)
 
 	// setup log
