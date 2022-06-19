@@ -4,10 +4,10 @@ WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
-RUN go mod download
+RUN GOPROXY="https://proxy.golang.com.cn,direct" go mod download
 
 ADD . /app
-RUN GOPROXY="https://proxy.golang.com.cn,direct" go build -o ./mirrorz-shim
+RUN go build -o ./mirrorz-shim
 
 FROM alpine:3
 
