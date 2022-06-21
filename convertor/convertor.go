@@ -62,7 +62,7 @@ func convertToMirrorzInfo(mirrorData []models.ZjuMirror) []models.MirrorzInfo {
 		if v.IndexFileType != "none" {
 			mirrorzInfo = append(
 				mirrorzInfo,
-				models.MirrorzInfo{Distro: v.Name.Zh, Category: v.IndexFileType, Urls: v.Files},
+				models.MirrorzInfo{Distro: v.Id, Category: v.IndexFileType, Urls: v.Files},
 			)
 		}
 	}
@@ -72,9 +72,29 @@ func convertToMirrorzInfo(mirrorData []models.ZjuMirror) []models.MirrorzInfo {
 func convertToMirrorzMirrors(mirrorData []models.ZjuMirror) []models.MirrorzMirror {
 	var mirrorzMirror []models.MirrorzMirror
 	for _, v := range mirrorData {
+		statusMapper := map[string]string{
+			"succeeded": "S",
+			"syncing":   "Y",
+			"failed":    "F",
+		}
+		var status = "U"
+		switch v.Status {
+		case "succeeded", "syncing", "failed":
+			status = statusMapper[v.Status] + v.LastUpdated + "X" + v.NextScheduled + "O" + v.LastUpdated
+		case "paused":
+			status = "P"
+		case "cached":
+			status = "C"
+		case "reverseProxied":
+			status = "R"
+			//case "unknown":
+			//	status = "U"
+			//default:
+			//	status = "U"
+		}
 		mirrorzMirror = append(
 			mirrorzMirror,
-			models.MirrorzMirror{Cname: v.Name.Zh, Desc: v.Desc.Zh, URL: v.Url, Help: v.HelpUrl, Upstream: v.Upstream, Size: v.Size},
+			models.MirrorzMirror{Cname: v.Id, Desc: v.Desc.Zh, URL: v.Url, Help: v.HelpUrl, Upstream: v.Upstream, Size: v.Size, Status: status},
 		)
 	}
 	return mirrorzMirror
