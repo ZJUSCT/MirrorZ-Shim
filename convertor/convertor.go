@@ -59,21 +59,23 @@ func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 func convertToMirrorzInfo(mirrorData []models.ZjuMirror) []models.MirrorzInfo {
 	var mirrorzInfo []models.MirrorzInfo
 	for _, v := range mirrorData {
-		mirrorzInfo = append(
-			mirrorzInfo,
-			models.MirrorzInfo{Distro: v.Name.Zh, Category: "os", Urls: v.Files}, // FIXME: do not hardcode os
-		)
+		if v.IndexFileType != "none" {
+			mirrorzInfo = append(
+				mirrorzInfo,
+				models.MirrorzInfo{Distro: v.Name.Zh, Category: v.IndexFileType, Urls: v.Files},
+			)
+		}
 	}
 	return mirrorzInfo
 }
 
 func convertToMirrorzMirrors(mirrorData []models.ZjuMirror) []models.MirrorzMirror {
-	var mirrozMirror []models.MirrorzMirror
+	var mirrorzMirror []models.MirrorzMirror
 	for _, v := range mirrorData {
-		mirrozMirror = append(
-			mirrozMirror,
-			models.MirrorzMirror{Cname: v.Name.Zh, Desc: v.Desc.Zh, URL: v.Url, Help: v.HelpUrl, Upstream: v.Upstream},
+		mirrorzMirror = append(
+			mirrorzMirror,
+			models.MirrorzMirror{Cname: v.Name.Zh, Desc: v.Desc.Zh, URL: v.Url, Help: v.HelpUrl, Upstream: v.Upstream, Size: v.Size},
 		)
 	}
-	return mirrozMirror
+	return mirrorzMirror
 }
