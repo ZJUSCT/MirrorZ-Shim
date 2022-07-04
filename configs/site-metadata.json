@@ -1,7 +1,8 @@
 {
   "url": "https://mirror.zju.edu.cn",
   "abbr": "ZJU",
-  "name": "浙江大学开源软件镜像站-新",
+  "name": "浙江大学开源软件镜像站",
   "homepage": "https://www.zjusct.io",
-  "disk": "9.7T/110T"
+  "logo":"https://mirror.zju.edu.cn/ZJUSCT_Icon_Black.png",
+  "disk": "23T/110T"
 }
