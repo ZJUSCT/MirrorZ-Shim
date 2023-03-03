@@ -4,7 +4,7 @@
     {
       "label": "zju",
       "public": true,
-      "resolve": "mirror.zju.edu.cn",
+      "resolve": "mirrors.zju.edu.cn",
       "filter": [ "V4", "SSL", "NOSSL" ],
       "range": [
         "AS4538",
