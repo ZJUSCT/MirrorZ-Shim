@@ -3,7 +3,7 @@
 
 ## MirrorZ Format
 
-basic: https://github.com/mirrorz-org/mirrorz-302#mirrorzdjson
+basic: https://github.com/mirrorz-org/mirrorz#data-format-v16
 
 302 extension: https://github.com/mirrorz-org/mirrorz-302#mirrorzdjson
 
