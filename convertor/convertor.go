@@ -25,7 +25,7 @@ func Convert(mirrorData []models.ZjuMirror) *models.MirrorZ {
 	}
 
 	data := new(models.MirrorZ)
-	data.Version = 1.5 // FIXME: do not hard code
+	data.Version = 1.6 // FIXME: do not hard code
 	data.Site = mirrorzSite
 	data.Info = convertToMirrorzInfo(mirrorData)
 	data.Mirrors = convertToMirrorzMirrors(mirrorData)
@@ -74,13 +74,14 @@ func convertToMirrorzMirrors(mirrorData []models.ZjuMirror) []models.MirrorzMirr
 	for _, v := range mirrorData {
 		statusMapper := map[string]string{
 			"succeeded": "S",
-			"syncing":   "Y",
-			"failed":    "F",
+			"syncing"  : "Y",
+			"failed"   : "F",
+			"pending"  : "D",
 		}
 		var status = "U"
 		switch v.Status {
-		case "succeeded", "syncing", "failed":
 			status = statusMapper[v.Status] + v.LastUpdated + "X" + v.NextScheduled + "O" + v.LastUpdated
+		case "succeeded", "syncing", "failed", "pending":
 		case "paused":
 			status = "P"
 		case "cached":
