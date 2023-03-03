@@ -80,8 +80,8 @@ func convertToMirrorzMirrors(mirrorData []models.ZjuMirror) []models.MirrorzMirr
 		}
 		var status = "U"
 		switch v.Status {
-			status = statusMapper[v.Status] + v.LastUpdated + "X" + v.NextScheduled + "O" + v.LastUpdated
 		case "succeeded", "syncing", "failed", "pending":
+			status = statusMapper[v.Status] + v.LastUpdated + "X" + v.NextScheduled + "O" + v.LastSuccess
 		case "paused":
 			status = "P"
 		case "cached":
