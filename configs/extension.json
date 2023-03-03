@@ -5,10 +5,12 @@
       "label": "zju",
       "public": true,
       "resolve": "mirrors.zju.edu.cn",
-      "filter": [ "V4", "SSL", "NOSSL" ],
+      "filter": [ "V4", "V6", "SSL", "NOSSL" ],
       "range": [
         "AS4538",
         "AS24367",
+        "AS23910",
+        "AS23911",
         "210.32.0.0/20",
         "222.205.0.0/17",
         "210.32.128.0/19",

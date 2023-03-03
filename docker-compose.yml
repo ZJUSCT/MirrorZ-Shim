@@ -5,6 +5,6 @@ services:
     image: git.zju.edu.cn:5050/zju-mirror/mirrorz-shim
     restart: always
     ports:
-      - 6001:1323
+      - 127.0.0.1:6001:1323
     environment:
       - TZ=Aisa/Shanghai
