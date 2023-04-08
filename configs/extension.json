@@ -5,8 +5,16 @@
       "label": "zju",
       "public": true,
       "resolve": "mirrors.zju.edu.cn",
-      "filter": [ "V4", "V6", "SSL", "NOSSL" ],
+      "filter": [
+        "V4",
+        "V6",
+        "SSL",
+        "NOSSL"
+      ],
       "range": [
+        "COUNTRY:CN",
+        "REGION:ZJ",
+        "ISP:CERNET",
         "AS4538",
         "AS24367",
         "AS23910",
